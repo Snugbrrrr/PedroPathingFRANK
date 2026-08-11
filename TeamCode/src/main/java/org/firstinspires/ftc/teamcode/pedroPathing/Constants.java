@@ -18,9 +18,9 @@ public class Constants {
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
-                .pathConstraints(pathConstraints)
-                .driveEncoderLocalizer(localizerConstants)
                 .mecanumDrivetrain(driveConstants)
+                .driveEncoderLocalizer(localizerConstants)
+                .pathConstraints(pathConstraints)
                 .build();
     }
 
@@ -40,14 +40,17 @@ public class Constants {
             .rightRearMotorName("backRightMotor")
             .leftFrontMotorName("frontLeftMotor")
             .leftRearMotorName("backLeftMotor")
-            .leftFrontEncoderDirection(Encoder.REVERSE)
-            .leftRearEncoderDirection(Encoder.REVERSE)
-            .rightFrontEncoderDirection(Encoder.FORWARD)
-            .rightRearEncoderDirection(Encoder.FORWARD)
             .robotWidth(13.0)
-            .robotLength(11.5)
+            .robotLength(11.5);
+//            .leftFrontEncoderDirection(Encoder.FORWARD)
+//            .leftRearEncoderDirection(Encoder.FORWARD)
+//            .rightFrontEncoderDirection(Encoder.FORWARD)
+//            .rightRearEncoderDirection(Encoder.FORWARD)
+
 //            .forwardTicksToInches(0.67)
 //            .strafeTicksToInches(0.3)
 //            .turnTicksToInches(0.8)
-            ;
+
+
+
 }
