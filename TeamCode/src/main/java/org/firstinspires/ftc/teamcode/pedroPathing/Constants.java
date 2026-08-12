@@ -20,13 +20,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.1, 0.0022, 0.0844))
-            .centripetalScaling(0.0)
-            .headingPIDFCoefficients(new PIDFCoefficients(0.1, 0.0, 0.01, 0.0))
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0.0, 0.0, 0.0))
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.025, 0.0, 0.00001, 0.6, 0.01))
+            .headingPIDFCoefficients(new PIDFCoefficients(0.7, 0.0, 0.01, 0.01))
             .forwardZeroPowerAcceleration(-43.8)
             .lateralZeroPowerAcceleration(-50.3)
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.08, 0.0, 0.01, 0.02))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.1, 0.0, 0.01, 0.1, 0.01))
+            .centripetalScaling(0.0)
+            .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.1, 0.074, 0.0027))
             .mass(5);
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
 
@@ -62,9 +62,9 @@ public class Constants {
 //            .turnTicksToInches(0.8)
     public static PinpointConstants localizerConstants = new PinpointConstants()
         .hardwareMapName("pinpoint")
-        .forwardPodY(2)
-        .strafePodX(1.5)
         .distanceUnit(DistanceUnit.INCH)
+        .forwardPodY(2)
+        .strafePodX(2.37)
         .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD)
         .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED)
         .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);

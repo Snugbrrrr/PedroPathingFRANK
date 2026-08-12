@@ -21,9 +21,9 @@ public class TestPedroOP extends OpMode {
     Timer pathTimer, opModeTimer;
 
     private final Pose testPose = new Pose();
-    private final Pose startPose = new Pose(20, 120, Math.toRadians((140)));
-    private final Pose shootPose = new Pose(50, 90);
-    private final Pose stopPose = new Pose(70, 100, Math.toRadians((90)));
+    private final Pose startPose = new Pose(40, 120, Math.toRadians(140));
+    private final Pose shootPose = new Pose(50, 110, Math.toRadians(140));
+    private final Pose stopPose = new Pose(60, 90, Math.toRadians(90));
 
     public enum PathState{
         drive_start_to_shoot, shoot, drive_shoot_to_stop
@@ -97,7 +97,7 @@ public class TestPedroOP extends OpMode {
         telemetry.addData("path state", pathState.toString());
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
-        telemetry.addData("heading", follower.getPose().getHeading());
+        telemetry.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
     }
 
 
