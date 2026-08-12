@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import com.pedropathing.control.FilteredPIDFCoefficients;
+import com.pedropathing.control.PIDFCoefficients;
+import com.pedropathing.control.PredictiveBrakingCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
@@ -16,8 +19,15 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
-    public static FollowerConstants followerConstants = new FollowerConstants().mass(5);
-
+    public static FollowerConstants followerConstants = new FollowerConstants()
+            .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.1, 0.0022, 0.0844))
+            .centripetalScaling(0.0)
+            .headingPIDFCoefficients(new PIDFCoefficients(0.1, 0.0, 0.01, 0.0))
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0.0, 0.0, 0.0))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.025, 0.0, 0.00001, 0.6, 0.01))
+            .forwardZeroPowerAcceleration(-43.8)
+            .lateralZeroPowerAcceleration(-50.3)
+            .mass(5);
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
@@ -30,7 +40,11 @@ public class Constants {
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .xVelocity(56.7)
+            .yVelocity(40.67)
             ;
+
+
 //    public static DriveEncoderConstants localizerConstants = new DriveEncoderConstants()
 //            .rightFrontMotorName("frontRightMotor")
 //            .rightRearMotorName("backRightMotor")
@@ -51,9 +65,9 @@ public class Constants {
         .forwardPodY(2)
         .strafePodX(1.5)
         .distanceUnit(DistanceUnit.INCH)
-        .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
-        .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
-        .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD)
+        .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED)
+        .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
