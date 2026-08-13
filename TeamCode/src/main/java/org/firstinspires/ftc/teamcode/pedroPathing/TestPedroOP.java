@@ -17,27 +17,35 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 @Configurable
 public class TestPedroOP extends OpMode {
 
+    // variables
     private Follower follower;
     Timer pathTimer, opModeTimer;
 
+    // ‘Pose’ is a Pedro data type / Class (object)
     private final Pose testPose = new Pose();
     private final Pose startPose = new Pose(40, 120, Math.toRadians(140));
     private final Pose shootPose = new Pose(50, 110, Math.toRadians(140));
     private final Pose stopPose = new Pose(60, 90, Math.toRadians(90));
 
+    // ‘enum’ is a data type in Java, somewhat similar to a list
     public enum PathState{
         drive_start_to_shoot, shoot, drive_shoot_to_stop
     }
 
+
+    // declare an instance of a 'PathState' variable
     PathState pathState;
 
+    // helper function to set next pathState AND reset pathTimer
     public void setPathState(PathState newState){
         pathState = newState;
         pathTimer.resetTimer();
     }
 
+    // ‘PathChain’ is a Pedro data type that will use the different Poses
     private PathChain driveStartToShoot, driveShootToStop;
 
+    // helper function to build the PathChain variables
     public void buildPaths(){
         driveStartToShoot = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, shootPose))
@@ -49,6 +57,8 @@ public class TestPedroOP extends OpMode {
                 .build();
     }
 
+
+    // helper function to set the pathState variable
     public void statePathUpdate(){
         switch(pathState){
             case drive_start_to_shoot:
