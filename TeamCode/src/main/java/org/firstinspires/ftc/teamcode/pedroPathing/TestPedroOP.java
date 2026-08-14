@@ -27,7 +27,7 @@ public class TestPedroOP extends OpMode {
 //    private final Pose shootPose = new Pose(50, 110, Math.toRadians(140));
 //    private final Pose stopPose = new Pose(60, 90, Math.toRadians(90));
     private final Pose startPose = new Pose(20, 120, Math.toRadians(140));
-    private final Pose shootPose = new Pose(72, 72, Math.toRadians(140));
+    private final Pose shootPose = new Pose(60, 80, Math.toRadians(140));
     private final Pose stopPose = new Pose(72, 140, Math.toRadians(90));
 
     // ‘enum’ is a data type in Java, somewhat similar to a list
