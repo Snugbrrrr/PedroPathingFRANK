@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
-import static java.lang.Math.toRadians;
 import static java.lang.Thread.sleep;
 
 import com.bylazar.configurables.annotations.Configurable;
@@ -10,12 +9,11 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 @Autonomous(name="Test Pedro OP")
 @Configurable
-public class TestPedroOP extends OpMode {
+public class FirstPedroAuto extends OpMode {
 
     // variables
     private Follower follower;

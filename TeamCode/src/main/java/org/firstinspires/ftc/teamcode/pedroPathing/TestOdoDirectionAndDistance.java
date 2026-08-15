@@ -4,8 +4,6 @@ import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -13,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 @Disabled
 @TeleOp
-public class Tester extends LinearOpMode {
+public class TestOdoDirectionAndDistance extends LinearOpMode {
 
     private GoBildaPinpointDriver odo;
 
