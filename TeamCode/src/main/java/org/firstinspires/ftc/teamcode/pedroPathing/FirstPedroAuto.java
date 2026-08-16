@@ -64,7 +64,13 @@ public class FirstPedroAuto extends OpMode {
     }
 
 
-
+    /*
+        Changing hardware here runs EVERY FRAME in loop()
+        Behavior: Sends the command repeatedly every loop cycle.
+        Best used for: Continuous updates, active monitoring,
+            or dynamic logic (e.g., PID target adjustments, sensor checks,
+            or setting state transitions).
+     */
     // **5) create code for the State Machine (set to next state)
     public void statePathUpdate() {
         switch(path_state) {
@@ -77,8 +83,6 @@ public class FirstPedroAuto extends OpMode {
 
             case shoot:
                 telemetry.addLine("SHOOOTING!!!!!!!!!!!!!! RAGGHHHHH!!!!!!!!");
-                helicopterBoy.setPosition(0.5);
-
                 // Wait 5 seconds after reaching shoot pose before moving on
                 if (pathTimer.getElapsedTimeSeconds() > 5.0) {
                     setPathState(PathState.drive_shoot_to_pickup);
@@ -104,6 +108,14 @@ public class FirstPedroAuto extends OpMode {
         }
     }
 
+
+    /*
+        Changing other hardware here runs ONCE on transistion
+        Behavior: Sends one command to the hardware upon entry,
+            then lets the device run independently while loop() continues.
+        Best used for: One-time actions or triggering state initialization
+            (e.g., setting a motor power, launching a single movement, or starting a trajectory).
+     */
     // helper function to set next path_state AND reset pathTimer
     // **6) write code to change the Follower
     public void setPathState(PathState newState) {
@@ -122,7 +134,7 @@ public class FirstPedroAuto extends OpMode {
                 follower.followPath(drivePickupToStop);
                 break;
             case shoot:
-                // Optional: reset servo or mechanisms here
+                helicopterBoy.setPosition(0.5);
                 break;
         }
     }
