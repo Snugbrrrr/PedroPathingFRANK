@@ -45,21 +45,6 @@ public class Constants {
             ;
 
 
-//    public static DriveEncoderConstants localizerConstants = new DriveEncoderConstants()
-//            .rightFrontMotorName("frontRightMotor")
-//            .rightRearMotorName("backRightMotor")
-//            .leftFrontMotorName("frontLeftMotor")
-//            .leftRearMotorName("backLeftMotor")
-//            .robotWidth(13.0)
-//            .robotLength(11.5)
-//            .leftFrontEncoderDirection(Encoder.FORWARD)
-//            .leftRearEncoderDirection(Encoder.FORWARD)
-//            .rightFrontEncoderDirection(Encoder.FORWARD)
-//            .rightRearEncoderDirection(Encoder.FORWARD);
-
-//            .forwardTicksToInches(0.67)
-//            .strafeTicksToInches(0.3)
-//            .turnTicksToInches(0.8)
     public static PinpointConstants localizerConstants = new PinpointConstants()
         .hardwareMapName("pinpoint")
         .distanceUnit(DistanceUnit.INCH)
