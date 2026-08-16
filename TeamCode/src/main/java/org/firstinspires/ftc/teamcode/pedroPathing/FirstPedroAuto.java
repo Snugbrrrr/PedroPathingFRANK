@@ -23,18 +23,20 @@ public class FirstPedroAuto extends OpMode {
     Timer pathTimer, opModeTimer;
 
     // ‘Pose’ is a Pedro data type / Class (object)
-//    private final Pose startPose = new Pose((alliance.equals("blue")) ? 20 : 144-20, 120, Math.toRadians(140));
-//    private final Pose shootPose = new Pose(33, 108, Math.toRadians(140));
-//    private final Pose pickupPose = new Pose(24, 94, Math.toRadians(180));
-//    private final Pose stopPose = new Pose(45, 113, Math.toRadians(90));
+    // 1) define the Pose
+    private Pose startPose = new Pose(20, 120, Math.toRadians(140));
+    private Pose shootPose = new Pose(33, 108, Math.toRadians(140));
+    private Pose pickupPose = new Pose(24, 94, Math.toRadians(180));
+    private Pose stopPose = new Pose(45, 113, Math.toRadians(90));
 
-    private Pose startPose;
-    private Pose shootPose;
-    private Pose pickupPose;
-    private Pose stopPose;
+//    private Pose startPose;
+//    private Pose shootPose;
+//    private Pose pickupPose;
+//    private Pose stopPose;
 
 
     // ‘enum’ is a data type in Java, somewhat similar to a list
+    // 2) declare a path_state
     public enum PathState{
         drive_start_to_shoot, shoot, drive_shoot_to_pickup, drive_pickup_to_stop
     }
@@ -50,9 +52,11 @@ public class FirstPedroAuto extends OpMode {
     }
 
     // ‘PathChain’ is a Pedro data type that will use the different Poses
+    // 3) declare a pathChain
     private PathChain driveStartToShoot, driveShootToPickup, drivePickupToStop;
 
     // helper function to build the PathChain variables
+    // 4) define the pathChain
     public void buildPaths(){
         driveStartToShoot = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, shootPose))
@@ -70,6 +74,7 @@ public class FirstPedroAuto extends OpMode {
 
 
     // helper function to set the pathState variable
+    // 5) create code for the State Machine
     public void statePathUpdate(){
         switch(pathState){
             case drive_start_to_shoot:
@@ -100,19 +105,33 @@ public class FirstPedroAuto extends OpMode {
         }
     }
 
+    // helper function to flip alliance
+    private Pose flipPose(Pose orig){
+        double tempx = 144-orig.getX();
+        double tempHeading = Math.PI - orig.getHeading();
+        return new Pose(tempx, orig.getY(), tempHeading);
+    }
+
+
+
+
 
     @Override
     public void init() {
         // get pot value, if something, set alliance to red
-        alliance = "red"; // TODO change this to a conditional with pot value
+        alliance = "blue"; // TODO change this to a conditional with pot value
+        if(alliance.equals("red")){
+            // 6) flip for red alliance
+            startPose = flipPose(startPose);
+            shootPose = flipPose(shootPose);
+            pickupPose = flipPose(pickupPose);
+            stopPose = flipPose(stopPose);
+        }
 
-        startPose = new Pose((alliance.equals("blue")) ? 20 : 144-20, 120, Math.toRadians((alliance.equals("blue")) ? 140 : 180-140));
-
-        shootPose = new Pose((alliance.equals("blue")) ? 33 : 144-33, 108, Math.toRadians((alliance.equals("blue")) ? 140 : 180-140));
-
-        pickupPose = new Pose((alliance.equals("blue")) ? 24 : 144-24, 94, Math.toRadians((alliance.equals("blue")) ? 180 : 180-180));
-
-        stopPose = new Pose((alliance.equals("blue")) ? 45 : 144-45, 113, Math.toRadians((alliance.equals("blue")) ? 90 : 180-90));
+//        startPose = new Pose((alliance.equals("blue")) ? 20 : 144-20, 120, Math.toRadians((alliance.equals("blue")) ? 140 : 180-140));
+//        shootPose = new Pose((alliance.equals("blue")) ? 33 : 144-33, 108, Math.toRadians((alliance.equals("blue")) ? 140 : 180-140));
+//        pickupPose = new Pose((alliance.equals("blue")) ? 24 : 144-24, 94, Math.toRadians((alliance.equals("blue")) ? 180 : 180-180));
+//        stopPose = new Pose((alliance.equals("blue")) ? 45 : 144-45, 113, Math.toRadians((alliance.equals("blue")) ? 90 : 180-90));
 
         helicopterBoy = hardwareMap.get(Servo.class, "helicopterBoy");
         helicopterBoy.setDirection(Servo.Direction.FORWARD);
@@ -126,11 +145,15 @@ public class FirstPedroAuto extends OpMode {
         follower.setPose(startPose);
     }
 
+
+
     @Override
     public void start() {
         opModeTimer.resetTimer();
         setPathState(pathState);
     }
+
+
 
     @Override
     public void loop() {
@@ -142,9 +165,6 @@ public class FirstPedroAuto extends OpMode {
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
     }
-
-
-
 
 
 }
