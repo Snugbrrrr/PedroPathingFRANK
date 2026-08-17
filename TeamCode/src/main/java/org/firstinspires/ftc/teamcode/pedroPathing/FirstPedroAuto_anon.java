@@ -4,17 +4,15 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name="Test Pedro OP")
+@Autonomous(name="Test Pedro OP ANONYMOUS!!!")
 @Configurable
-@Disabled
-public class FirstPedroAuto extends OpMode {
+public class FirstPedroAuto_anon extends OpMode {
 
     // variables
     private String alliance;
@@ -32,37 +30,16 @@ public class FirstPedroAuto extends OpMode {
     private Pose stopPose = new Pose(45, 113, Math.toRadians(90));
 
 
-    // ‘PathChain’ is a Pedro data type
-    // **2) declare a PathChain variable (motion to "connect" poses)
-    private PathChain driveStartToShoot, driveShootToPickup, drivePickupToStop;
-
 
     // ‘enum’ is a data type in Java, somewhat similar to a list
     // 'PathState' is the name of the enumeration
     // 'path_state' is the name of the variable that can be assigned any item in the enumeration
-    // **3) add to the enumeration (the different states)
+    // **2) add to the enumeration (the different states)
     PathState path_state;
     public enum PathState{
         drive_start_to_shoot, shoot, drive_shoot_to_pickup, drive_pickup_to_stop
     }
 
-
-    // helper function to build the PathChain variables
-    // **4) define the PathChain variable ("connect" the poses)
-    public void buildPaths(){
-        driveStartToShoot = follower.pathBuilder()
-                .addPath(new BezierLine(startPose, shootPose))
-                .setLinearHeadingInterpolation(startPose.getHeading(), shootPose.getHeading())
-                .build();
-        driveShootToPickup = follower.pathBuilder()
-                .addPath(new BezierLine(shootPose, pickupPose))
-                .setLinearHeadingInterpolation(shootPose.getHeading(), pickupPose.getHeading())
-                .build();
-        drivePickupToStop = follower.pathBuilder()
-                .addPath(new BezierLine(pickupPose, stopPose))
-                .setLinearHeadingInterpolation(pickupPose.getHeading(), stopPose.getHeading())
-                .build();
-    }
 
 
     /*
@@ -72,7 +49,7 @@ public class FirstPedroAuto extends OpMode {
             or dynamic logic (e.g., PID target adjustments, sensor checks,
             or setting state transitions).
      */
-    // **5) create code for the State Machine (set to next state)
+    // **3) the State Machine (set to next state)
     public void statePathUpdate() {
         switch(path_state) {
             case drive_start_to_shoot:
@@ -117,8 +94,8 @@ public class FirstPedroAuto extends OpMode {
         Best used for: One-time actions or triggering state initialization
             (e.g., setting a motor power, launching a single movement, or starting a trajectory).
      */
-    // helper function to set next path_state AND reset pathTimer
-    // **6) write code to change the Follower
+    // **4) write code to build the PathChain (PathChain is a Pedro data type)
+    //      and control other hardware
     public void setPathState(PathState newState) {
         path_state = newState;
         pathTimer.resetTimer();
@@ -126,13 +103,23 @@ public class FirstPedroAuto extends OpMode {
         // Trigger path movement ONCE upon entering the state
         switch(path_state) {
             case drive_start_to_shoot:
-                follower.followPath(driveStartToShoot, true);
+                follower.followPath(follower.pathBuilder()
+                        .addPath(new BezierLine(startPose, shootPose))
+                        .setLinearHeadingInterpolation(startPose.getHeading(), shootPose.getHeading())
+                        .build(), true);
                 break;
             case drive_shoot_to_pickup:
-                follower.followPath(driveShootToPickup);
+                follower.followPath(follower.pathBuilder()
+                        .addPath(new BezierLine(shootPose, pickupPose))
+                        .setLinearHeadingInterpolation(shootPose.getHeading(), pickupPose.getHeading())
+                        .build(), true);
                 break;
             case drive_pickup_to_stop:
-                follower.followPath(drivePickupToStop);
+                follower.followPath(follower.pathBuilder()
+                        .addPath(new BezierLine(pickupPose, stopPose))
+                        .setLinearHeadingInterpolation(pickupPose.getHeading(), stopPose.getHeading())
+                        .build(), true);
+                helicopterBoy.setPosition(0.0);
                 break;
             case shoot:
                 helicopterBoy.setPosition(0.5);
@@ -158,7 +145,7 @@ public class FirstPedroAuto extends OpMode {
         // get pot value, if something, set alliance to red
         alliance = "blue"; // TODO change this to a conditional with pot value
         if(alliance.equals("red")){
-            // **7) flip Pose for red alliance
+            // **5) flip Pose for red alliance
             startPose = flipPose(startPose);
             shootPose = flipPose(shootPose);
             pickupPose = flipPose(pickupPose);
@@ -177,8 +164,8 @@ public class FirstPedroAuto extends OpMode {
         // set the PathState and setup the Follower
         path_state = PathState.drive_start_to_shoot;
         follower = Constants.createFollower(hardwareMap);
-        // build the PathChains and set the initial Pose
-        buildPaths();
+
+        // set the initial Pose
         follower.setPose(startPose);
     }
 
@@ -202,6 +189,7 @@ public class FirstPedroAuto extends OpMode {
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
+        telemetry.addData("path timer", pathTimer.toString());
     }
 
 
