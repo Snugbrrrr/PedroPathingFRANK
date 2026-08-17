@@ -189,7 +189,7 @@ public class FirstPedroAuto_anon extends OpMode {
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
-        telemetry.addData("path timer", pathTimer.toString());
+        telemetry.addData("path timer", pathTimer.getElapsedTimeSeconds());
     }
 
 
