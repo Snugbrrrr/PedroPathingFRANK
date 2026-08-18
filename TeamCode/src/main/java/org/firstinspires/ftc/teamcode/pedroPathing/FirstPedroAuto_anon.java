@@ -155,13 +155,13 @@ public class FirstPedroAuto_anon extends OpMode {
         pathTimer = new Timer();
         opModeTimer = new Timer();
 
-        // initialize other hardware
+        // ** initialize other hardware
         helicopterBoy = hardwareMap.get(Servo.class, "helicopterBoy");
         helicopterBoy.setDirection(Servo.Direction.FORWARD);
         helicopterBoy.setPosition(0.0);
 
 
-        // set the PathState and setup the Follower
+        // ** set the initial PathState and setup the Follower
         path_state = PathState.drive_start_to_shoot;
         follower = Constants.createFollower(hardwareMap);
 
