@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.ArmSubsystem;
+
 @Autonomous(name="Test Pedro OP ANONYMOUS!!!")
 @Configurable
 public class PedroAuto extends OpMode {
@@ -17,6 +19,7 @@ public class PedroAuto extends OpMode {
     private String alliance;
     private Follower follower;
     private Servo shooter;
+    ArmSubsystem arm;
     Timer pathTimer, opModeTimer;
 
 
@@ -119,9 +122,11 @@ public class PedroAuto extends OpMode {
                         .setLinearHeadingInterpolation(pickupPose.getHeading(), stopPose.getHeading())
                         .build(), true);
                 shooter.setPosition(0.0);
+                arm.lift(0.0);
                 break;
             case shoot:
                 shooter.setPosition(0.5);
+                arm.lift(0.5);
                 break;
         }
     }
@@ -158,6 +163,7 @@ public class PedroAuto extends OpMode {
         shooter = hardwareMap.get(Servo.class, "shooter");
         shooter.setDirection(Servo.Direction.FORWARD);
         shooter.setPosition(0.0);
+        arm = new ArmSubsystem(hardwareMap);
 
 
         // ** set the initial PathState and setup the Follower
