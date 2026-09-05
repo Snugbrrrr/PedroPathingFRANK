@@ -58,42 +58,45 @@ public class DriveTrain {
 
     public void drive(Gamepad gamepad1){
         // Press Y to set ZERO ANGLE!
-        if (gamepad1.yWasPressed()){
-            imu.resetYaw();
-        }
+        if (gamepad1.yWasPressed()) imu.resetYaw();
+
         // turbo/slow button, slowwwwwwwwwww fasttttttt
-        if (gamepad1.left_bumper){
-            // max
-            speedLimit = 1;
-        }
-        else if (gamepad1.right_bumper){
-            // min
-            speedLimit = 0.2;
-        }
-        else{
-            // mid
-            speedLimit = 0.6;
-        }
+        // max
+        if (gamepad1.left_bumper) speedLimit = 1;
+        // min
+        else if (gamepad1.right_bumper) speedLimit = 0.2;
+        // mid
+        else speedLimit = 0.6;
+
         // get the values from the controller
-        drive = -1 * gamepad1.left_stick_y;
-        rotate = gamepad1.right_stick_x;
-        strafe = gamepad1.left_stick_x;
+        if (Math.abs(gamepad1.left_stick_y) > .05) drive = -1 * gamepad1.left_stick_y;
+        else drive = 0;
+
+        if (Math.abs(gamepad1.right_stick_x) > .05) rotate = gamepad1.right_stick_x;
+        else rotate = 0;
+
+        if (Math.abs(gamepad1.left_stick_x) > .05) strafe = gamepad1.left_stick_x;
+        else strafe = 0;
+
+
+
         // field oriented control!
         yawAngle = -1 * imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         double sinTemp = Math.sin(yawAngle);
         double cosTemp = Math.cos(yawAngle);
-
         double fieldX = strafe * cosTemp - drive * sinTemp;
         double fieldY = strafe * sinTemp + drive * cosTemp;
         double flp = fieldY + fieldX + rotate;
         double frp = fieldY - fieldX - rotate;
         double blp = fieldY - fieldX + rotate;
         double brp = fieldY + fieldX - rotate;
+
         // find total. divide if over 1. normalizeeeee
         double tempMax = Math.max(1, Math.abs(flp));
         tempMax = Math.max(tempMax, Math.abs(frp));
         tempMax = Math.max(tempMax, Math.abs(blp));
         tempMax = Math.max(tempMax, Math.abs(brp));
+
         // adjust according to speed limit, SPINNNNNNN!!!!!!!!!!
         flm.setPower(flp / tempMax * speedLimit);
         frm.setPower(frp / tempMax * speedLimit);

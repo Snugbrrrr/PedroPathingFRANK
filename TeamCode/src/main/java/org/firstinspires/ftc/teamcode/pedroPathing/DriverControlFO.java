@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.DriveTrain;
 
+@TeleOp(name = "Driver Control Field Oriented")
 public class DriverControlFO extends OpMode {
     DriveTrain driveTrain;
 
