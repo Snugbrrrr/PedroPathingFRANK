@@ -6,18 +6,17 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name="Test Pedro OP ANONYMOUS!!!")
 @Configurable
-public class FirstPedroAuto_anon extends OpMode {
+public class PedroAuto extends OpMode {
 
     // variables
     private String alliance;
     private Follower follower;
-    private Servo helicopterBoy;
+    private Servo shooter;
     Timer pathTimer, opModeTimer;
 
 
@@ -119,10 +118,10 @@ public class FirstPedroAuto_anon extends OpMode {
                         .addPath(new BezierLine(pickupPose, stopPose))
                         .setLinearHeadingInterpolation(pickupPose.getHeading(), stopPose.getHeading())
                         .build(), true);
-                helicopterBoy.setPosition(0.0);
+                shooter.setPosition(0.0);
                 break;
             case shoot:
-                helicopterBoy.setPosition(0.5);
+                shooter.setPosition(0.5);
                 break;
         }
     }
@@ -156,9 +155,9 @@ public class FirstPedroAuto_anon extends OpMode {
         opModeTimer = new Timer();
 
         // ** initialize other hardware
-        helicopterBoy = hardwareMap.get(Servo.class, "helicopterBoy");
-        helicopterBoy.setDirection(Servo.Direction.FORWARD);
-        helicopterBoy.setPosition(0.0);
+        shooter = hardwareMap.get(Servo.class, "shooter");
+        shooter.setDirection(Servo.Direction.FORWARD);
+        shooter.setPosition(0.0);
 
 
         // ** set the initial PathState and setup the Follower
