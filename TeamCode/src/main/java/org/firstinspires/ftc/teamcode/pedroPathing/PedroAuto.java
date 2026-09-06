@@ -1,3 +1,7 @@
+/*
+    Any path changes/additions require 5 steps in code (numbered in the comments)
+ */
+
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import com.bylazar.configurables.annotations.Configurable;
